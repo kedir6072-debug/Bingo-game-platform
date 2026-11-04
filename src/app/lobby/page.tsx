@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { createClient } from '@/lib/supabase/client';
+import { getSupabase } from '@/lib/supabase/client';
 
 export default function LobbyPage() {
   const router = useRouter();
@@ -12,7 +12,7 @@ export default function LobbyPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const supabase = createClient();
+    const supabase = getSupabase();
     
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session) {
@@ -32,7 +32,7 @@ export default function LobbyPage() {
   useEffect(() => {
     if (!session) return;
 
-    const supabase = createClient();
+    const supabase = getSupabase();
     
     const fetchRooms = async () => {
       const { data, error } = await supabase

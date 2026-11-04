@@ -3,14 +3,14 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
+import { getSupabase } from '@/lib/supabase/client';
 
 export default function Navbar() {
   const [session, setSession] = useState<any>(null);
   const router = useRouter();
 
   useEffect(() => {
-    const supabase = createClient();
+    const supabase = getSupabase();
     
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -24,7 +24,7 @@ export default function Navbar() {
   }, []);
 
   const handleSignOut = async () => {
-    const supabase = createClient();
+    const supabase = getSupabase();
     await supabase.auth.signOut();
     router.push('/auth/login');
   };
